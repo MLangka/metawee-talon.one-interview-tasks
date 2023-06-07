@@ -1,0 +1,2574 @@
+{
+	"info": {
+		"_postman_id": "5a684be6-b5fd-47b9-8eed-206eea7424b1",
+		"name": "Metawee-Talon.one Interview Tasks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25423004"
+	},
+	"item": [
+		{
+			"name": "Regression",
+			"item": [
+				{
+					"name": "GET basic endpoints",
+					"item": [
+						{
+							"name": "Listing all resourcses",
+							"item": [
+								{
+									"name": "Get all posts",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At lease one post is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Store all available post ids as a variable",
+													"    let allPostIdArray = [];",
+													"    response.forEach(response => allPostIdArray.push(response.id));",
+													"    pm.environment.set(\"availablePostId\", allPostIdArray);",
+													"",
+													"    // Post contains correct data",
+													"    const post = response[0];",
+													"    pm.expect(post).to.be.an(\"object\");",
+													"    pm.expect(post).to.haveOwnProperty(\"userId\");",
+													"    pm.expect(post).to.haveOwnProperty(\"id\");",
+													"    pm.expect(post).to.haveOwnProperty(\"title\");",
+													"    pm.expect(post).to.haveOwnProperty(\"body\");",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/posts",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At least one user is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Store all available user ids as a variable",
+													"    let allUserIdArray = [];",
+													"    response.forEach(response => allUserIdArray.push(response.id));",
+													"    pm.environment.set(\"availableUserId\", allUserIdArray);",
+													"",
+													"    // User contains correct data",
+													"    const user = response[0];",
+													"    pm.expect(user).to.be.an(\"object\");",
+													"    pm.expect(user).to.haveOwnProperty(\"id\");",
+													"    pm.expect(user).to.haveOwnProperty(\"name\");",
+													"    pm.expect(user).to.haveOwnProperty(\"username\");",
+													"    pm.expect(user).to.haveOwnProperty(\"email\");",
+													"    pm.expect(user).to.haveOwnProperty(\"address\");",
+													"    pm.expect(user).to.haveOwnProperty(\"phone\");",
+													"    pm.expect(user).to.haveOwnProperty(\"website\");",
+													"    pm.expect(user).to.haveOwnProperty(\"company\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all comments",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At lease one comment is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Store all available comment ids as a variable",
+													"    let allCommentIdArray = [];",
+													"    response.forEach(response => allCommentIdArray.push(response.id));",
+													"    pm.environment.set(\"availableCommentId\", allCommentIdArray);",
+													"",
+													"    // Comment contains correct data",
+													"    const comment = response[0];",
+													"    pm.expect(comment).to.be.an(\"object\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"postId\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"id\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"name\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"email\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"body\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/comments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"comments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all albums",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At least one album is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Store all available album ids as a variable",
+													"    let allAlbumIdArray = [];",
+													"    response.forEach(response => allAlbumIdArray.push(response.id));",
+													"    pm.environment.set(\"availableAlbumId\", allAlbumIdArray);",
+													"",
+													"    // Album contains correct data",
+													"    const album = response[0];",
+													"    pm.expect(album).to.be.an(\"object\");",
+													"    pm.expect(album).to.haveOwnProperty(\"userId\");",
+													"    pm.expect(album).to.haveOwnProperty(\"id\");",
+													"    pm.expect(album).to.haveOwnProperty(\"title\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/albums",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"albums"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all photos",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At least one photo is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Store all available photo ids as a variable",
+													"    let allPhotoIdArray = [];",
+													"    response.forEach(response => allPhotoIdArray.push(response.id));",
+													"    pm.environment.set(\"availablePhotoId\", allPhotoIdArray);",
+													"",
+													"    // Photo contains correct data",
+													"    const photo = response[0];",
+													"    pm.expect(photo).to.be.an(\"object\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"albumId\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"id\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"title\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"url\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"thumbnailUrl\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/photos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"photos"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all todos",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At least one todo is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Store all available todo ids as a variable",
+													"    let allTodoIdArray = [];",
+													"    response.forEach(response => allTodoIdArray.push(response.id));",
+													"    pm.environment.set(\"availableTodoId\", allTodoIdArray);",
+													"",
+													"    // Todo contains correct data",
+													"    const todo = response[0];",
+													"    pm.expect(todo).to.be.an(\"object\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"userId\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"id\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"title\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"completed\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Nested routes",
+							"item": [
+								{
+									"name": "Get all posts - belong to a user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At lease one post is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Post contains correct data",
+													"    const post = response[0];",
+													"    pm.expect(post).to.be.an(\"object\");",
+													"    pm.expect(post).to.haveOwnProperty(\"userId\");",
+													"    pm.expect(post).to.haveOwnProperty(\"id\");",
+													"    pm.expect(post).to.haveOwnProperty(\"title\");",
+													"    pm.expect(post).to.haveOwnProperty(\"body\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId/posts",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId",
+												"posts"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "{{defaultUserId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all comments - belong to a post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At lease one comment is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Comment contains correct data",
+													"    const comment = response[0];",
+													"    pm.expect(comment).to.be.an(\"object\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"postId\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"id\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"name\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"email\");",
+													"    pm.expect(comment).to.haveOwnProperty(\"body\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/posts/:postId/comments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"posts",
+												":postId",
+												"comments"
+											],
+											"variable": [
+												{
+													"key": "postId",
+													"value": "{{defaultPostId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all albums - belong to a user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At least one album is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Album contains correct data",
+													"    const album = response[0];",
+													"    pm.expect(album).to.be.an(\"object\");",
+													"    pm.expect(album).to.haveOwnProperty(\"userId\");",
+													"    pm.expect(album).to.haveOwnProperty(\"id\");",
+													"    pm.expect(album).to.haveOwnProperty(\"title\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId/albums",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId",
+												"albums"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "{{defaultUserId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all photos - belong to an album",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At least one photo is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Photo contains correct data",
+													"    const photo = response[0];",
+													"    pm.expect(photo).to.be.an(\"object\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"albumId\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"id\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"title\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"url\");",
+													"    pm.expect(photo).to.haveOwnProperty(\"thumbnailUrl\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/albums/:albumId/photos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"albums",
+												":albumId",
+												"photos"
+											],
+											"variable": [
+												{
+													"key": "albumId",
+													"value": "{{defaultAlbumId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get all todos - belong to a user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At least one todo is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Todo contains correct data",
+													"    const todo = response[0];",
+													"    pm.expect(todo).to.be.an(\"object\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"userId\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"id\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"title\");",
+													"    pm.expect(todo).to.haveOwnProperty(\"completed\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId/todos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId",
+												"todos"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "{{defaultUserId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Basic filtering - query parameters",
+							"item": [
+								{
+									"name": "Get all posts - belong to a user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Response body contains correct data\", function () {",
+													"    // At lease one post is available",
+													"    pm.expect(response).to.be.an(\"array\");",
+													"    pm.expect(response.length).to.be.above(0);",
+													"",
+													"    // Post contains correct data",
+													"    const post = response[0];",
+													"    pm.expect(post).to.be.an(\"object\");",
+													"    pm.expect(post).to.haveOwnProperty(\"userId\");",
+													"    pm.expect(post).to.haveOwnProperty(\"id\");",
+													"    pm.expect(post).to.haveOwnProperty(\"title\");",
+													"    pm.expect(post).to.haveOwnProperty(\"body\");",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/posts?userId={{defaultUserId}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"posts"
+											],
+											"query": [
+												{
+													"key": "userId",
+													"value": "{{defaultUserId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get a single resource",
+							"item": [
+								{
+									"name": "Get a single post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Correct post is retrived\", function () {",
+													"    pm.expect(response.id).to.eq(parseInt(pm.environment.get(\"defaultPostId\")));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/posts/:postId?_embed=comments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"posts",
+												":postId"
+											],
+											"query": [
+												{
+													"key": "_embed",
+													"value": "comments"
+												}
+											],
+											"variable": [
+												{
+													"key": "postId",
+													"value": "{{defaultPostId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get a single user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Correct user is retrived\", function () {",
+													"    pm.expect(response.id).to.eq(parseInt(pm.environment.get(\"defaultUserId\")));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "{{defaultUserId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get a single comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Correct comment is retrived\", function () {",
+													"    pm.expect(response.id).to.eq(parseInt(pm.environment.get(\"defaultCommentId\")));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/comments/:commentId?_expand=post",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"comments",
+												":commentId"
+											],
+											"query": [
+												{
+													"key": "_expand",
+													"value": "post"
+												}
+											],
+											"variable": [
+												{
+													"key": "commentId",
+													"value": "{{defaultCommentId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get a single album",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Correct album is retrived\", function () {",
+													"    pm.expect(response.id).to.eq(parseInt(pm.environment.get(\"defaultAlbumId\")));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/albums/:albumId?_embed=photos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"albums",
+												":albumId"
+											],
+											"query": [
+												{
+													"key": "_embed",
+													"value": "photos"
+												}
+											],
+											"variable": [
+												{
+													"key": "albumId",
+													"value": "{{defaultAlbumId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get a single photo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Correct photo is retrived\", function () {",
+													"    pm.expect(response.id).to.eq(parseInt(pm.environment.get(\"defaultPhotoId\")));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/photos/:photoId?_expand=album",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"photos",
+												":photoId"
+											],
+											"query": [
+												{
+													"key": "_expand",
+													"value": "album"
+												}
+											],
+											"variable": [
+												{
+													"key": "photoId",
+													"value": "{{defaultPhotoId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get a single todo",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Correct todo is retrived\", function () {",
+													"    pm.expect(response.id).to.eq(parseInt(pm.environment.get(\"defaultTodoId\")));",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/todos/:todoId?_expand=user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"todos",
+												":todoId"
+											],
+											"query": [
+												{
+													"key": "_expand",
+													"value": "user"
+												}
+											],
+											"variable": [
+												{
+													"key": "todoId",
+													"value": "{{defaultTodoId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Happy path",
+					"item": [
+						{
+							"name": "Create a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new post is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"postId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomWords}}\",\n    \"body\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/posts",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The post's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('postId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{postId}},\n    \"title\": \"{{$randomWords}}\",\n    \"body\": \"{{$randomLoremSentence}}\",\n    \"userId\": {{userId}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/posts/:postId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts",
+										":postId"
+									],
+									"variable": [
+										{
+											"key": "postId",
+											"value": "{{postId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The post's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('postId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"body\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/posts/:postId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts",
+										":postId"
+									],
+									"variable": [
+										{
+											"key": "postId",
+											"value": "{{postId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new post is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"commentId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"postId\": {{postId}},\n    \"name\": \"{{$randomWords}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"body\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/comments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace a comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The comment's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('commentId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"postId\": {{postId}},\n    \"name\": \"{{$randomWords}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"body\": \"{{$randomLoremSentence}}\",\n    \"id\": {{commentId}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/comments/:commentId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comments",
+										":commentId"
+									],
+									"variable": [
+										{
+											"key": "commentId",
+											"value": "{{commentId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The comment's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('commentId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{$randomEmail}}\",\n    \"body\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/comments/:commentId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comments",
+										":commentId"
+									],
+									"variable": [
+										{
+											"key": "commentId",
+											"value": "{{commentId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new user is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"userId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"username\": \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"address\": {\n        \"street\": \"{{$randomStreetName}}\",\n        \"suite\": \"{{$randomStreetAddress}}\",\n        \"city\": \"{{$randomCity}}\",\n        \"zipcode\": \"{{$randomInt}}\",\n        \"geo\": {\n            \"lat\": \"{{$randomLatitude}}\",\n            \"lng\": \"{{$randomLongitude}}\"\n        }\n    },\n    \"phone\": \"{{$randomPhoneNumber}}\",\n    \"website\": \"{{$randomUrl}}\",\n    \"company\": {\n        \"name\": \"{{$randomWord}}\",\n        \"catchPhrase\": \"{{$randomCatchPhrase}}\",\n        \"bs\": \"{{$randomCatchPhrase}}\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The user's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('userId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"username\": \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"address\": {\n        \"street\": \"{{$randomStreetName}}\",\n        \"suite\": \"{{$randomStreetAddress}}\",\n        \"city\": \"{{$randomCity}}\",\n        \"zipcode\": \"{{$randomInt}}\",\n        \"geo\": {\n            \"lat\": \"{{$randomLatitude}}\",\n            \"lng\": \"{{$randomLongitude}}\"\n        }\n    },\n    \"phone\": \"{{$randomPhoneNumber}}\",\n    \"website\": \"{{$randomUrl}}\",\n    \"company\": {\n        \"name\": \"{{$randomWord}}\",\n        \"catchPhrase\": \"{{$randomCatchPhrase}}\",\n        \"bs\": \"{{$randomCatchPhrase}}\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The user's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('userId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"address\": {\n        \"street\": \"{{$randomStreetName}}\",\n        \"suite\": \"{{$randomStreetAddress}}\",\n        \"city\": \"{{$randomCity}}\",\n        \"zipcode\": \"{{$randomInt}}\",\n        \"geo\": {\n            \"lat\": \"{{$randomLatitude}}\",\n            \"lng\": \"{{$randomLongitude}}\"\n        }\n    },\n    \"phone\": \"{{$randomPhoneNumber}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new album is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"albumId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The album's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('albumId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums/:albumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums",
+										":albumId"
+									],
+									"variable": [
+										{
+											"key": "albumId",
+											"value": "{{albumId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The album's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('albumId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums/:albumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums",
+										":albumId"
+									],
+									"variable": [
+										{
+											"key": "albumId",
+											"value": "{{albumId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new photo is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"photoId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"albumId\": {{albumId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The photo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('photoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"albumId\": {{albumId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos/:photoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos",
+										":photoId"
+									],
+									"variable": [
+										{
+											"key": "photoId",
+											"value": "{{photoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The photo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('photoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos/:photoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos",
+										":photoId"
+									],
+									"variable": [
+										{
+											"key": "photoId",
+											"value": "{{photoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new photo is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"todoId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"completed\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The todo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('todoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"completed\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todoId"
+									],
+									"variable": [
+										{
+											"key": "todoId",
+											"value": "{{todoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The todo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('todoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"completed\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todoId"
+									],
+									"variable": [
+										{
+											"key": "todoId",
+											"value": "{{todoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available post id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availablePostId\");",
+											"pm.environment.set(\"deletePostId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availablePostId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/posts/:postId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts",
+										":postId"
+									],
+									"variable": [
+										{
+											"key": "postId",
+											"value": "{{deletePostId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available comment id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availableCommentId\");",
+											"pm.environment.set(\"deleteCommentId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availableCommentId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/comments/:commentId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comments",
+										":commentId"
+									],
+									"variable": [
+										{
+											"key": "commentId",
+											"value": "{{deleteCommentId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available photo id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availablePhotoId\");",
+											"pm.environment.set(\"deletePhotoId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availablePhotoId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos/:photoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos",
+										":photoId"
+									],
+									"variable": [
+										{
+											"key": "photoId",
+											"value": "{{deletePhotoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available album id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availableAlbumId\");",
+											"pm.environment.set(\"deleteAlbumId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availableAlbumId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums/:albumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums",
+										":albumId"
+									],
+									"variable": [
+										{
+											"key": "albumId",
+											"value": "{{deleteAlbumId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available user id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availableUserId\");",
+											"pm.environment.set(\"deleteUserId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availableUserId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{deleteUserId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available todo id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availableTodoId\");",
+											"pm.environment.set(\"deleteTodoId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availableTodoId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todoId"
+									],
+									"variable": [
+										{
+											"key": "todoId",
+											"value": "{{deleteTodoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Negative cases",
+			"item": [
+				{
+					"name": "Create a post - duplicated post id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    //Check the actual status as it returns for now - it should not crash with 500(even if this case is not possble via UI)",
+									"    pm.response.to.have.status(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremWords}}\",\n    \"body\": \"{{$randomLoremSentence}}\",\n    \"id\": {{defaultPostId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/posts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a comment - duplicated id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Error message is 'Error: Insert failed, duplicate id'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Error: Insert failed, duplicate id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": {{postId}},\n    \"name\": \"{{$randomWords}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"body\": \"{{$randomLoremSentence}}\",\n    \"id\": {{defaultCommentId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a user - duplicated id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Error message is 'Error: Insert failed, duplicate id'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Error: Insert failed, duplicate id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"username\": \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"address\": {\n        \"street\": \"{{$randomStreetName}}\",\n        \"suite\": \"{{$randomStreetAddress}}\",\n        \"city\": \"{{$randomCity}}\",\n        \"zipcode\": \"{{$randomInt}}\",\n        \"geo\": {\n            \"lat\": \"{{$randomLatitude}}\",\n            \"lng\": \"{{$randomLongitude}}\"\n        }\n    },\n    \"phone\": \"{{$randomPhoneNumber}}\",\n    \"website\": \"{{$randomUrl}}\",\n    \"company\": {\n        \"name\": \"{{$randomWord}}\",\n        \"catchPhrase\": \"{{$randomCatchPhrase}}\",\n        \"bs\": \"{{$randomCatchPhrase}}\"\n    },\n    \"id\": {{defaultUserId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an album - duplicated id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Error message is 'Error: Insert failed, duplicate id'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Error: Insert failed, duplicate id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"id\": {{defaultAlbumId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/albums",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"albums"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a photo - duplicated id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Error message is 'Error: Insert failed, duplicate id'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Error: Insert failed, duplicate id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"albumId\": {{albumId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\",\n    \"id\": {{defaultPhotoId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/photos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"photos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a todo - duplicated id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {",
+									"    pm.response.to.have.status(500);",
+									"});",
+									"",
+									"pm.test(\"Error message is 'Error: Insert failed, duplicate id'\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Error: Insert failed, duplicate id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"completed\": false,\n    \"id\": {{defaultTodoId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/todos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"todos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
