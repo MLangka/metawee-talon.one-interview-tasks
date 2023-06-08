@@ -27,16 +27,15 @@ npm install -g json-server
 json-server --watch /{path to your db.json file}
 ```
 
-- [Import the Postman collection](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/) to your Postman application
-  [Optional]
-- Install [Newman](https://www.npmjs.com/package/newman) to run the collection in CLI
+- [Import the Postman collection](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/) and 'Test' environment to your Postman application
+  
+- [Optional] Install [Newman](https://www.npmjs.com/package/newman) to run the collection in CLI
 
 ### Run the tests
 
 - You can run the tests individually or as a collection using [collection runner](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/) in Postman
 - Add a small delay in the collection runner to ensure optimal results(reason: JSON Server gives random errors when the tests are running instantly after each other)
-  [Run in CLI]
-- Run
+- [Run in CLI] Run
 
 ```
 newman run /{path to Postman collection} -e /{path to postman environment} --delay-request 1000
