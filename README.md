@@ -34,6 +34,7 @@ json-server --watch /{path to your db.json file}
 ### Run the tests
 
 - You can run the tests individually or as a collection using [collection runner](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/) in Postman
+- Make sure to run the tests in 'Test' environment
 - Add a small delay in the collection runner to ensure optimal results(reason: JSON Server gives random errors when the tests are running instantly after each other)
 - [Run in CLI] Run
 
