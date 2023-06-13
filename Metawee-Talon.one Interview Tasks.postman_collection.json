@@ -1123,6 +1123,68 @@
 							"response": []
 						},
 						{
+							"name": "Delete a post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available post id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availablePostId\");",
+											"pm.environment.set(\"deletePostId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availablePostId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/posts/:postId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts",
+										":postId"
+									],
+									"variable": [
+										{
+											"key": "postId",
+											"value": "{{deletePostId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Create a comment",
 							"event": [
 								{
@@ -1278,6 +1340,713 @@
 										{
 											"key": "commentId",
 											"value": "{{commentId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a comment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available comment id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availableCommentId\");",
+											"pm.environment.set(\"deleteCommentId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availableCommentId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/comments/:commentId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comments",
+										":commentId"
+									],
+									"variable": [
+										{
+											"key": "commentId",
+											"value": "{{deleteCommentId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new photo is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"photoId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"albumId\": {{albumId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The photo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('photoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"albumId\": {{albumId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos/:photoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos",
+										":photoId"
+									],
+									"variable": [
+										{
+											"key": "photoId",
+											"value": "{{photoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The photo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('photoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos/:photoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos",
+										":photoId"
+									],
+									"variable": [
+										{
+											"key": "photoId",
+											"value": "{{photoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available photo id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availablePhotoId\");",
+											"pm.environment.set(\"deletePhotoId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availablePhotoId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/photos/:photoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"photos",
+										":photoId"
+									],
+									"variable": [
+										{
+											"key": "photoId",
+											"value": "{{deletePhotoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new album is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"albumId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The album's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('albumId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums/:albumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums",
+										":albumId"
+									],
+									"variable": [
+										{
+											"key": "albumId",
+											"value": "{{albumId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The album's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('albumId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums/:albumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums",
+										":albumId"
+									],
+									"variable": [
+										{
+											"key": "albumId",
+											"value": "{{albumId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete an album",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available album id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availableAlbumId\");",
+											"pm.environment.set(\"deleteAlbumId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availableAlbumId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/albums/:albumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"albums",
+										":albumId"
+									],
+									"variable": [
+										{
+											"key": "albumId",
+											"value": "{{deleteAlbumId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"A new photo is created with new id\", function () {",
+											"    pm.expect(response).to.haveOwnProperty('id');",
+											"",
+											"    // Save post id as a variable",
+											"    pm.expect(response.id).to.be.a(\"number\");",
+											"    pm.environment.set(\"todoId\", response.id);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"completed\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Replace a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The todo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('todoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"completed\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todoId"
+									],
+									"variable": [
+										{
+											"key": "todoId",
+											"value": "{{todoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();",
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The todo's id does not change\", function () {",
+											"    pm.expect(response.id).to.eql(pm.variables.get('todoId'));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"completed\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todoId"
+									],
+									"variable": [
+										{
+											"key": "todoId",
+											"value": "{{todoId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Get an available todo id from the variable and remove it after delete",
+											"let availableId = pm.environment.get(\"availableTodoId\");",
+											"pm.environment.set(\"deleteTodoId\" , availableId[availableId.length - 1]);",
+											"availableId.pop();",
+											"pm.environment.set(\"availableTodoId\", availableId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/todos/:todoId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"todos",
+										":todoId"
+									],
+									"variable": [
+										{
+											"key": "todoId",
+											"value": "{{deleteTodoId}}"
 										}
 									]
 								}
@@ -1447,713 +2216,6 @@
 							"response": []
 						},
 						{
-							"name": "Create an album",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											"pm.test(\"A new album is created with new id\", function () {",
-											"    pm.expect(response).to.haveOwnProperty('id');",
-											"",
-											"    // Save post id as a variable",
-											"    pm.expect(response.id).to.be.a(\"number\");",
-											"    pm.environment.set(\"albumId\", response.id);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/albums",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"albums"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Replace an album",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The album's id does not change\", function () {",
-											"    pm.expect(response.id).to.eql(pm.variables.get('albumId'));",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/albums/:albumId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"albums",
-										":albumId"
-									],
-									"variable": [
-										{
-											"key": "albumId",
-											"value": "{{albumId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update an album",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The album's id does not change\", function () {",
-											"    pm.expect(response.id).to.eql(pm.variables.get('albumId'));",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"title\": \"{{$randomLoremSentence}}\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/albums/:albumId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"albums",
-										":albumId"
-									],
-									"variable": [
-										{
-											"key": "albumId",
-											"value": "{{albumId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create a photo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											"pm.test(\"A new photo is created with new id\", function () {",
-											"    pm.expect(response).to.haveOwnProperty('id');",
-											"",
-											"    // Save post id as a variable",
-											"    pm.expect(response.id).to.be.a(\"number\");",
-											"    pm.environment.set(\"photoId\", response.id);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"albumId\": {{albumId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/photos",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"photos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Replace a photo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The photo's id does not change\", function () {",
-											"    pm.expect(response.id).to.eql(pm.variables.get('photoId'));",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"albumId\": {{albumId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"url\": \"https://via.placeholder.com/600/92c952\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/photos/:photoId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"photos",
-										":photoId"
-									],
-									"variable": [
-										{
-											"key": "photoId",
-											"value": "{{photoId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update a photo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The photo's id does not change\", function () {",
-											"    pm.expect(response.id).to.eql(pm.variables.get('photoId'));",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"thumbnailUrl\": \"https://via.placeholder.com/150/92c952\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/photos/:photoId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"photos",
-										":photoId"
-									],
-									"variable": [
-										{
-											"key": "photoId",
-											"value": "{{photoId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create a todo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											"pm.test(\"A new photo is created with new id\", function () {",
-											"    pm.expect(response).to.haveOwnProperty('id');",
-											"",
-											"    // Save post id as a variable",
-											"    pm.expect(response.id).to.be.a(\"number\");",
-											"    pm.environment.set(\"todoId\", response.id);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"completed\": false\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/todos",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"todos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Replace a todo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The todo's id does not change\", function () {",
-											"    pm.expect(response.id).to.eql(pm.variables.get('todoId'));",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"userId\": {{userId}},\n    \"title\": \"{{$randomLoremSentence}}\",\n    \"completed\": false\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/todos/:todoId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"todos",
-										":todoId"
-									],
-									"variable": [
-										{
-											"key": "todoId",
-											"value": "{{todoId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update a todo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"const response = pm.response.json();",
-											"",
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The todo's id does not change\", function () {",
-											"    pm.expect(response.id).to.eql(pm.variables.get('todoId'));",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"completed\": true\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/todos/:todoId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"todos",
-										":todoId"
-									],
-									"variable": [
-										{
-											"key": "todoId",
-											"value": "{{todoId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete a post",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"// Get an available post id from the variable and remove it after delete",
-											"let availableId = pm.environment.get(\"availablePostId\");",
-											"pm.environment.set(\"deletePostId\" , availableId[availableId.length - 1]);",
-											"availableId.pop();",
-											"pm.environment.set(\"availablePostId\", availableId);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/posts/:postId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"posts",
-										":postId"
-									],
-									"variable": [
-										{
-											"key": "postId",
-											"value": "{{deletePostId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete a comment",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"// Get an available comment id from the variable and remove it after delete",
-											"let availableId = pm.environment.get(\"availableCommentId\");",
-											"pm.environment.set(\"deleteCommentId\" , availableId[availableId.length - 1]);",
-											"availableId.pop();",
-											"pm.environment.set(\"availableCommentId\", availableId);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/comments/:commentId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"comments",
-										":commentId"
-									],
-									"variable": [
-										{
-											"key": "commentId",
-											"value": "{{deleteCommentId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete a photo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"// Get an available photo id from the variable and remove it after delete",
-											"let availableId = pm.environment.get(\"availablePhotoId\");",
-											"pm.environment.set(\"deletePhotoId\" , availableId[availableId.length - 1]);",
-											"availableId.pop();",
-											"pm.environment.set(\"availablePhotoId\", availableId);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/photos/:photoId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"photos",
-										":photoId"
-									],
-									"variable": [
-										{
-											"key": "photoId",
-											"value": "{{deletePhotoId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete an album",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"// Get an available album id from the variable and remove it after delete",
-											"let availableId = pm.environment.get(\"availableAlbumId\");",
-											"pm.environment.set(\"deleteAlbumId\" , availableId[availableId.length - 1]);",
-											"availableId.pop();",
-											"pm.environment.set(\"availableAlbumId\", availableId);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/albums/:albumId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"albums",
-										":albumId"
-									],
-									"variable": [
-										{
-											"key": "albumId",
-											"value": "{{deleteAlbumId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Delete a user",
 							"event": [
 								{
@@ -2209,68 +2271,6 @@
 										{
 											"key": "userId",
 											"value": "{{deleteUserId}}"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete a todo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"// Get an available todo id from the variable and remove it after delete",
-											"let availableId = pm.environment.get(\"availableTodoId\");",
-											"pm.environment.set(\"deleteTodoId\" , availableId[availableId.length - 1]);",
-											"availableId.pop();",
-											"pm.environment.set(\"availableTodoId\", availableId);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/todos/:todoId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"todos",
-										":todoId"
-									],
-									"variable": [
-										{
-											"key": "todoId",
-											"value": "{{deleteTodoId}}"
 										}
 									]
 								}
